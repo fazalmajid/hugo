@@ -68,6 +68,8 @@ func GuessType(in string) string {
 	switch strings.ToLower(in) {
 	case "md", "markdown", "mdown":
 		return "markdown"
+	case "jpg", "jpeg", "zorglubtron":
+		return "jpeg"
 	case "asciidoc", "adoc", "ad":
 		return "asciidoc"
 	case "mmark":

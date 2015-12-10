@@ -251,6 +251,15 @@ func markdownRenderWithTOC(ctx *RenderingContext) []byte {
 		getMarkdownExtensions(ctx))
 }
 
+// JPEG with EXIF/IPTC/XMP
+func jpegRender(ctx *RenderingContext) []byte {
+	return ctx.Content
+}
+
+func jpegRenderWithTOC(ctx *RenderingContext) []byte {
+	return ctx.Content
+}
+
 // getMmarkHTMLRenderer creates a new mmark HTML Renderer with the given configuration.
 func getMmarkHTMLRenderer(defaultFlags int, ctx *RenderingContext) mmark.Renderer {
 	renderParameters := mmark.HtmlRendererParameters{
@@ -366,6 +375,8 @@ func RenderBytesWithTOC(ctx *RenderingContext) []byte {
 		return markdownRenderWithTOC(ctx)
 	case "markdown":
 		return markdownRenderWithTOC(ctx)
+	case "jpeg":
+		return jpegRenderWithTOC(ctx)
 	case "asciidoc":
 		return []byte(getAsciidocContent(ctx.Content))
 	case "mmark":
@@ -382,6 +393,8 @@ func RenderBytes(ctx *RenderingContext) []byte {
 		return markdownRender(ctx)
 	case "markdown":
 		return markdownRender(ctx)
+	case "jpeg":
+		return jpegRender(ctx)
 	case "asciidoc":
 		return []byte(getAsciidocContent(ctx.Content))
 	case "mmark":

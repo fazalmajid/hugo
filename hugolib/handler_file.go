@@ -19,10 +19,12 @@ import (
 	"github.com/dchest/cssmin"
 	"github.com/spf13/hugo/source"
 	"github.com/spf13/hugo/tpl"
+	"log"
 )
 
 func init() {
 	RegisterHandler(new(cssHandler))
+	RegisterAdvancedJPEGHandler()
 	RegisterHandler(new(defaultHandler))
 }
 
@@ -51,4 +53,19 @@ func (h cssHandler) FileConvert(f *source.File, s *Site) HandledResult {
 	x := cssmin.Minify(f.Bytes())
 	s.writeDestFile(f.Path(), bytes.NewReader(x))
 	return HandledResult{file: f}
+}
+
+// special handler for JPEGs, not installed by default
+type advancedJpegHandler struct{ basicFileHandler }
+
+func (h advancedJpegHandler) Extensions() []string { return []string{"jpg", "jpeg"} }
+func (h advancedJpegHandler) FileConvert(f *source.File, s *Site) HandledResult {
+	s.writeDestFile(f.Path(), f.Contents)
+	log.Println("JPEG doing", f.LogicalName())
+	return HandledResult{file: f}
+}
+
+func RegisterAdvancedJPEGHandler() {
+	RegisterHandler(new(advancedJpegHandler))
+	log.Println("registered advanced JPEG handler")
 }
